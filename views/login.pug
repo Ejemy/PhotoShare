@@ -1,0 +1,22 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    title Photo Sharing
+    meta(name="description", content="A photosharing web application for my family.")
+    meta(name="keywords", content="photo, sharing, family, sns")
+    meta(name="author", content="Eric Iwan")
+    link(rel="stylesheet", href="./login.css")
+    script(src="/login.js")
+  body
+    #login-form
+      form(action="/login", method="post" id="form")
+        label(for="email") Email:
+        input(type="email", id="email", name="email", required)
+        
+        label(for="password") Password:
+        input(type="password", id="password", name="password", required)
+        
+        button(type="submit") Submit
