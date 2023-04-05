@@ -20,8 +20,8 @@ html(lang="en")
         input(type="password", id="password", name="password", required)
         
         button(type="submit") Submit
-    #error-message(hidden)
-      p The login information is incorrect
+    #error-message
+      p = error
   script. 
     const form = document.getElementById("form");
     
@@ -53,7 +53,7 @@ html(lang="en")
         .then(data => {
           console.log(data)
             if(!data.valid){
-              return errorMes.style.display = "block"
+               errorMes.innerHTML = data.error
             }
              else {
               return window.location = "/main"

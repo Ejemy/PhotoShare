@@ -1,0 +1,1 @@
+//function connecting to mongodb and validating the email/password and RETURN truthy
