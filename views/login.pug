@@ -8,9 +8,9 @@ html(lang="en")
     meta(name="description", content="A photosharing web application for my family.")
     meta(name="keywords", content="photo, sharing, family, sns")
     meta(name="author", content="Eric Iwan")
-    link(rel="stylesheet", href="./login.css")
-    script(src="/login.js")
+    link(rel="stylesheet", href="styles.css", type="text/css")
   body
+    h1=title 
     #login-form
       form(action="/login", method="post" id="form")
         label(for="email") Email:
@@ -20,3 +20,46 @@ html(lang="en")
         input(type="password", id="password", name="password", required)
         
         button(type="submit") Submit
+    #error-message(hidden)
+      p The login information is incorrect
+  script. 
+    const form = document.getElementById("form");
+    
+
+
+    form.onsubmit = async (event) => {
+        event.preventDefault()
+        const formData = new FormData(form)
+      const errorMes = document.getElementById("error-message");
+
+        let ob = {}
+        for (const [key,value] of formData.entries()) {
+            ob[key] = value
+        }
+        fetch("/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ob)
+            
+        })
+        .then(response => {
+            if(!response.ok){
+                throw new Error("Bad network response")
+            }
+            return response.json()
+        })
+        .then(data => {
+          console.log(data)
+            if(!data.valid){
+              return errorMes.style.display = "block"
+            }
+             else {
+              return window.location = "/main"
+             }
+        })
+        .catch(error =>{
+            console.log(error)
+        })
+    }
