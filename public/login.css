@@ -1,0 +1,23 @@
+body {
+    margin: auto;
+    text-align: center;
+}
+
+#error-message{
+   margin: auto;
+   width: 30%;
+   border-radius: 15px;
+   position: relative;
+   top: 4em;
+}
+
+
+#error-message.show{
+    display: block;
+    opacity: 1;
+    margin: auto;
+    border: 2px black solid;
+    border-radius: 20px;
+    width: 60%;
+}
+

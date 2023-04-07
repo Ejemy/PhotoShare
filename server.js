@@ -14,15 +14,17 @@ app.get('/', (req, res) => {
 });
 
 app.post("/login", (req,res) => {
-  //function to check DB
-  /*if(!FUNCTIONTHING){
-    return res.send({error: "Sorry, incorrect login information."})
+  console.log(req.body)
+  if(req.body.id == "12345"){
+    res.send({valid: true})
   }
-  return res.send({valid:FUNCTIONTHING});
-
-*/
-  return res.send({error: "haha"})
+  return res.send({error: "Incorrect login information haha"})
 })
+
+/app.get("/main", (req,res)=>{
+  res.render("main")
+})
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
