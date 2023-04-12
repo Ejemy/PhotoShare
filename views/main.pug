@@ -9,5 +9,28 @@ html(lang="en")
     meta(name="keywords", content="photo, sharing, family, sns")
     meta(name="author", content="Eric Iwan")
     link(rel="stylesheet", href="main.css", type="text/css")
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css')
+
   body
     h1 This is the main page.
+    #nav-bar 
+      nav
+        h3 Top 
+        h3 2023
+    #main-feed
+      form
+        input(type='file', name='photo')
+        button.btn.btn-primary(type='submit') Upload
+      #photo 
+        h2=date
+  script.
+    const formElem = document.querySelector('form');
+    formElem.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('/upload', {
+        method: 'POST',
+        body: new FormData(formElem),
+      });
+    });
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js')
