@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const path = require("path");
+const multer = require('multer');
+const upload = multer();
+
 
 const { OAuth2Client } = require('google-auth-library');
 const client_id = 'YOUR_CLIENT_ID';
@@ -16,7 +19,9 @@ app.use(express.static(path.join(__dirname, "public")))
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
 app.use(uploadRouter);
+
 require('dotenv').config();
 
 
@@ -25,11 +30,7 @@ app.get('/', (req, res) => {
     res.render("login", {title: "This is a title"});
 });
 
-app.post("/upload", upload.single('file'), async (req,res)  => {
-  const drive = getDriveService();
 
-
-})
 
 app.post("/login", (req,res) => {
   console.log(req.body)

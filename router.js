@@ -7,33 +7,38 @@ const { google } = require('googleapis');
 
 const uploadRouter = express.Router();
 const upload = multer();
+const getDriveService = require('./service.js');
+
 
 const uploadFile = async (fileObject) => {
+  const driveService = getDriveService();
   const bufferStream = new stream.PassThrough();
   bufferStream.end(fileObject.buffer);
-  const { data } = await google.drive({ version: 'v3' }).files.create({
+  const { data } = await driveService.files.create({
     media: {
       mimeType: fileObject.mimeType,
       body: bufferStream,
     },
     requestBody: {
       name: fileObject.originalname,
-      parents: ['/1GERGlmnrbIQyJquURzI1kRJHM6KX39aE'],
+      parents: ['1GERGlmnrbIQyJquURzI1kRJHM6KX39aE'],
     },
     fields: 'id,name',
   });
   console.log(`Uploaded file ${data.name} ${data.id}`);
+  console.log("This is after line 28 of router.js")
 };
 
 uploadRouter.post('/upload', upload.any(), async (req, res) => {
   try {
-    const { body, files } = req;
-
-    for (let f = 0; f < files.length; f += 1) {
+    const files = req.body;
+    console.log(files)
+    await uploadFile(files);
+    //this could be for uploading multiple? But I cant define length...
+    /*for (let f = 0; f < files.length; f += 1) {
       await uploadFile(files[f]);
-    }
+    } */
 
-    console.log(body);
     res.status(200).send('Form Submitted');
   } catch (f) {
     res.send(f.message);
