@@ -33,16 +33,18 @@ app.get('/', (req, res) => {
 
 
 app.post("/login", (req,res) => {
-  console.log(req.body)
   if(req.body.id == "12345"){
     return res.send({valid: true})
   }
   return res.send({error: "Incorrect login information haha"})
 })
 
-/app.get("/main", (req,res)=>{
+app.get("/main", (req,res)=>{
   res.render("main")
 })
+
+
+
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

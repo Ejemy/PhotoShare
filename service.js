@@ -13,7 +13,7 @@ const getCredentials = async () => {
         "X-Master-Key" : process.env.API_KEY
       },
     });
-    return response.data;
+    return response.data.record;
   } catch (error) {
     console.error(`Error fetching credentials: ${error}`);
     throw error;
@@ -21,14 +21,13 @@ const getCredentials = async () => {
 };
 
 const getDriveService = async () => {
-  const KEYFILEPATH = await getCredentials();
+  const KEYFILEPATH = await getCredentials()
   const SCOPES = ['https://www.googleapis.com/auth/drive'];
 
-  const auth = await new google.auth.GoogleAuth({
-    KeyFile: JSKEYFILEPATH,
+  const auth = new google.auth.GoogleAuth({
+    credentials: KEYFILEPATH,
     scopes: SCOPES,
   });
-  console.log("Auth: ", auth)
   const driveService = google.drive({ version: 'v3', auth });
   return driveService;
 };
