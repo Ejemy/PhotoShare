@@ -18,8 +18,8 @@ html(lang="en")
         h3 Top 
         h3 2023
     #main-feed
-      form(type="submit", method="POST", action="/upload")
-        input(type='file', name='photo')
+      form(type="submit", method="POST", action="/upload", enctype="multipart/form-data")
+        input(type='file', name='photo', accept="image/jpeg, image/png, image/gif")
         button.btn.btn-primary(type='submit') Upload
       #photo 
         h2=date
@@ -28,9 +28,21 @@ html(lang="en")
     const formElem = document.querySelector('form');
     formElem.addEventListener('submit', async (e) => {
       e.preventDefault();
-      await fetch('/upload', {
-        method: 'POST',
-        body: new FormData(formElem),
+      fetch('/upload', {
+        headers: {
+          'Content-Type': 'application/json',
+          "X-Master-Key" : process.env.API_KEY
+        }
+      }).then(function (response) {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      }).then(function (data) {
+    /This is the response with the session token and how long it's good for
+        console.log("data ", data);
+      }).catch(function (error) {
+        console.warn(error);
       });
     });
     

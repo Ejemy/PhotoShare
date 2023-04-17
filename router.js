@@ -11,7 +11,7 @@ const getDriveService = require('./service.js');
 
 
 const uploadFile = async (fileObject) => {
-  const driveService = getDriveService();
+  const driveService = await getDriveService();
   const bufferStream = new stream.PassThrough();
   bufferStream.end(fileObject.buffer);
   const { data } = await driveService.files.create({
@@ -26,12 +26,11 @@ const uploadFile = async (fileObject) => {
     fields: 'id,name',
   });
   console.log(`Uploaded file ${data.name} ${data.id}`);
-  console.log("This is after line 28 of router.js")
 };
 
 uploadRouter.post('/upload', upload.any(), async (req, res) => {
   try {
-    const files = req.body;
+    const files = req.files[0];
     console.log(files)
     await uploadFile(files);
     //this could be for uploading multiple? But I cant define length...
