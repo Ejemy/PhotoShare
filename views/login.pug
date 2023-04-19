@@ -52,13 +52,12 @@ html(lang="en")
             return response.json()
         })
         .then(data => {
-          console.log(data)
             if(!data.valid){
               errorMes.style.display = "block"
                error.textContent = data.error
             }
              else {
-              return window.location = "/main"
+              return window.location = "/"+ data.id + "/main"
              }
         })
         .catch(error =>{
