@@ -8,8 +8,9 @@ html(lang="en")
     meta(name="description", content="A photosharing web application for my family.")
     meta(name="keywords", content="photo, sharing, family, sns")
     meta(name="author", content="Eric Iwan")
-    link(rel="stylesheet", href="main.css", type="text/css")
+    link(rel="stylesheet", href="/css/main.css", type="text/css")
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css')
+    script(src="https://kit.fontawesome.com/6e13d63b5c.js", crossorigin="anonymous")
 
   body
     h1 This is the main page.
@@ -18,33 +19,13 @@ html(lang="en")
         h3 Top 
         h3 2023
     #main-feed
-      form(type="submit", method="POST", action="/upload", enctype="multipart/form-data")
-        input(type='file', name='photo', accept="image/jpeg, image/png, image/gif")
+      form#form(type="submit", enctype="multipart/form-data")
+        input(type='file', name='photo', accept="image/jpeg, image/png, image/gif", multiple="multiple")
         button.btn.btn-primary(type='submit') Upload
-      #photo 
-        h2=date
-     
-  //script.
-    const formElem = document.querySelector('form');
-    formElem.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      fetch('/upload', {
-        headers: {
-          'Content-Type': 'application/json',
-          "X-Master-Key" : process.env.API_KEY
-        }
-      }).then(function (response) {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(response);
-      }).then(function (data) {
-    /This is the response with the session token and how long it's good for
-        console.log("data ", data);
-      }).catch(function (error) {
-        console.warn(error);
-      });
-    });
-    
+      i.fa.fas.fa-circle-notch.fa-spin(style="display: block", id="loading")
+      #photoContainer 
+        
+  script(src="/js/index.js") 
+  
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js')
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js')
