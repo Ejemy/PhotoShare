@@ -17,7 +17,7 @@ require('dotenv').config();
 
 
 app.get('/', (req, res) => { 
-    res.render("login", {title: "This is a title"});
+  res.render("login", {title: "This is a title"});
 });
 
 
@@ -30,6 +30,7 @@ app.post("/login", (req,res) => {
 })
 
 app.get("/12345/main", (req,res)=>{
+  
   res.render("main")
 })
 
