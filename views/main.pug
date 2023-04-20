@@ -16,13 +16,14 @@ html(lang="en")
     h1 This is the main page.
     #nav-bar 
       nav
-        h3 Top 
-        h3 2023
+        ul
+          li
+            h3#top Top 
     #main-feed
       form#form(type="submit", enctype="multipart/form-data")
         input(type='file', name='photo', accept="image/jpeg, image/png, image/gif", multiple="multiple")
         button.btn.btn-primary(type='submit') Upload
-      i.fa.fas.fa-circle-notch.fa-spin(style="display: block", id="loading")
+      i.fa.fas.fa-circle-notch.fa-spin(style="display: none", id="loading")
       #photoContainer 
         
   script(src="/js/index.js") 

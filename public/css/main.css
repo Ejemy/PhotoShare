@@ -1,3 +1,23 @@
+body{
+    margin: auto;
+    width: 100%;
+}
+
+#main-feed{
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+form{
+    display: flex;
+    margin: auto;
+    width: 50%;
+}
+
+
+
+
 #photoContainer{
     display: grid;
     grid-template-columns: auto auto auto;
@@ -10,3 +30,60 @@
     width: 100%;
     background-color: #ccc;
 }
+
+
+nav {
+    position: fixed;
+    top: 20%;
+    left: 5%;
+    width: 10%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    transform: translateX(-20px);
+    z-index: 1;
+  }
+  
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav li {
+    margin-bottom: 20px;
+  }
+  
+  nav h3 {
+    display: block;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  nav h3:hover {
+    transform: scale(1.1);
+  }
+  
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-10px);
+    }
+    40% {
+      transform: translateX(10px);
+    }
+    60% {
+      transform: translateX(-10px);
+    }
+    80% {
+      transform: translateX(10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }

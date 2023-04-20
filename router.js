@@ -25,10 +25,10 @@ const uploadFile = async (fileObject) => {
       name: fileObject.originalname,
       parents: [process.env.DRIVE_ID],
     },
-    fields: 'id,name',
+    fields: 'id,name, createdTime, imageMediaMetadata',
   });
-  id.push(data.id)
-  console.log(`Uploaded file ${data.name} ${data.id}`);
+  id.push(data.id) //to get the file location URL IMPORTANT
+  console.log(`Uploaded file ${data.name} ${data.id} ${data.imageMediaMetadata}`);
   
 };
 
@@ -55,11 +55,19 @@ uploadRouter.get("/firstload", async(req,res)=>{
     const query = `'${process.env.DRIVE_ID}' in parents and mimeType contains 'image/'`;
     const response = driveService.files.list({
       q: query,
-      fields: 'files(id, name)'
+      fields: 'files(id, name, imageMediaMetadata, createdTime)'
     });
-    const photos = await response
-    console.log("onload photos data", photos.data.files)
-    res.status(200).json(photos.data.files)
+    const photos = await response;
+  
+    const sendPhotos = photos.data.files.map(file => ({
+      id: file.id,
+      name: file.name,
+      createdTime: file.createdTime,
+      takenTime: file.imageMediaMetadata?.date,
+    }))
+   
+
+    res.status(200).json(sendPhotos)
   } catch(errors){
     console.log(errors);
     res.status(500).send('Error retrieving photos from Google Drive.');

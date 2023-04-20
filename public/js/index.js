@@ -4,15 +4,14 @@ const loadImages = () => {
     fetch('/firstload')
     .then(response => response.json())
     .then(data => {
+      console.log(data)
       const photos = document.getElementById("photoContainer")
       data.forEach(image => {
-        console.log("url", image.id)
-
         const img = document.createElement('img')
         img.src = "https://drive.google.com/uc?export=view&id=" + image.id
         img.id = "newphoto"
         img.addEventListener('load', () => {
-         
+         //CREATE CORRECT DATES FOR TIME CREATED FOR FIRSTLOAD IMAGES
           const link = document.createElement('link')
           link.href = '/main.css'
           link.rel = 'stylesheet'
@@ -24,12 +23,20 @@ const loadImages = () => {
     })
     .catch(error => console.error(error));
     };
+const topNav = document.getElementById("top")
+topNav.onclick = async(e)=>{
+  e.preventDefault();
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+};
 
-    
 const form = document.getElementById("form");
+const loadingIcon = document.getElementById("loading");
 form.onsubmit = async (event) => {
     event.preventDefault()
-    const loadingIcon = document.getElementById("loading")
+    loadingIcon.style.display = "block";
     const formData = new FormData(form);
       loadingIcon.style.display = "block"
       fetch("/upload", {
@@ -43,6 +50,9 @@ form.onsubmit = async (event) => {
         return response.json()
       })
       .then(data =>{
+        console.log(data)
+        loadingIcon.style.display = "none";
+
         const photos = document.getElementById("photoContainer")
         if(data.status){
           const today = new Date()
