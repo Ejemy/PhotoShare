@@ -24,6 +24,7 @@ html(lang="en")
         input(type='file', name='photo', accept="image/jpeg, image/png, image/gif", multiple="multiple")
         button.btn.btn-primary(type='submit') Upload
       i.fa.fas.fa-circle-notch.fa-spin(style="display: none", id="loading")
+      #error(style="display: none")
       #photoContainer 
         
   script(src="/js/index.js") 
