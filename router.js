@@ -1,15 +1,14 @@
 // router.js
 
-const stream = require('stream');
-const express = require('express');
-const multer = require('multer');
-const { google } = require('googleapis');
+const stream = require("stream");
+const express = require("express");
+const multer = require("multer");
+const { google } = require("googleapis");
 
 const uploadRouter = express.Router();
 const upload = multer();
-const getDriveService = require('./service.js');
-require('dotenv').config();
-
+const getDriveService = require("./service.js");
+require("dotenv").config();
 
 var id = [];
 const uploadFile = async (fileObject) => {
@@ -25,56 +24,57 @@ const uploadFile = async (fileObject) => {
       name: fileObject.originalname,
       parents: [process.env.DRIVE_ID],
     },
-    fields: 'id,name, createdTime, imageMediaMetadata',
+    fields: "id,name, createdTime, imageMediaMetadata",
   });
-  id.push(data.id) //to get the file location URL IMPORTANT
-  console.log(`Uploaded file ${data.name} ${data.id} ${data.imageMediaMetadata}`);
-  
+  id.push(data.id); //to get the file location URL IMPORTANT
+  console.log("Grabbing from Google Drive...");
+  console.log(
+    `Uploaded file ${data.name} ${data.id} ${data.imageMediaMetadata}`
+  );
 };
 
-
-uploadRouter.post('/upload', upload.any(), async (req, res) => {
+uploadRouter.post("/upload", upload.any(), async (req, res) => {
   try {
-    console.log("trying upload...")
+    console.log("Uploading...");
     const files = req.files;
     //for uploading multiple files
     for (let f = 0; f < files.length; f += 1) {
       await uploadFile(files[f]);
+      
     }
-    
-    res.status(200).send({"status": "success", "link": id });
+    res.status(200).send({"status": "success"});
   } catch (f) {
     res.send(f.message);
   }
 });
 
-
-uploadRouter.get("/firstload", async(req,res)=>{
-  try{
+uploadRouter.get("/firstload", async (req, res) => {
+  try {
     const driveService = await getDriveService();
     const query = `'${process.env.DRIVE_ID}' in parents and mimeType contains 'image/'`;
     const response = driveService.files.list({
       q: query,
-      fields: 'files(id, name, imageMediaMetadata, createdTime)'
+      fields: "files(id, name, imageMediaMetadata, createdTime)",
     });
     const photos = await response;
-  
-    const sendPhotos = photos.data.files.map(file => ({
+
+    const sendPhotos = photos.data.files.map((file) => ({
       id: file.id,
       name: file.name,
       createdTime: file.createdTime,
-      takenTime: file.imageMediaMetadata?.date,
-    }))
-   
+      takenTime: file.imageMediaMetadata?.time,
+    }));
 
-    res.status(200).json(sendPhotos)
-  } catch(errors){
+    const sortedPhotos = sendPhotos.sort(function (a, b) {
+      return a.createdTime - b.createdTime;
+    });
+    console.log(sortedPhotos);
+
+    res.status(200).json(sendPhotos);
+  } catch (errors) {
     console.log(errors);
-    res.status(500).send('Error retrieving photos from Google Drive.');
+    res.status(500).send("Error retrieving photos from Google Drive.");
   }
-})
-
-
-
+});
 
 module.exports = uploadRouter;
