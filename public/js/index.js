@@ -69,8 +69,6 @@ form.onsubmit = async (event) => {
       console.log("data", data)
       loadingIcon.style.display = "none";
 
-
-
       const photos = document.getElementById("photoContainer");
 
       const today = new Date();
@@ -78,15 +76,12 @@ form.onsubmit = async (event) => {
       const day = today.getUTCDate();
       const year = today.getUTCFullYear();
       const d = document.createElement("div");
-
       d.innerHTML = month + "/" + day + "/" + year;
 
       data.forEach((image) => {
-        console.log(image)
-        
         const imgBox = document.createElement("div");
         imgBox.className = "newphoto";
-        photos.appendChild(imgBox);
+        photos.insertBefore(imgBox, photos.children[0]);
         const img = document.createElement("img");
         img.src = "https://drive.google.com/uc?export=view&id=" + image.link;
         imgBox.appendChild(img);
