@@ -70,7 +70,7 @@ uploadRouter.get("/firstload", async (req, res) => {
     }));
 
     const sortedPhotos = sendPhotos.sort(function (a, b) {
-      return a.createdTime - b.createdTime;
+      return b.createdTime - a.createdTime;
     });
     //console.log(sortedPhotos);
 
