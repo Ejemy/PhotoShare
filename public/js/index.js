@@ -1,12 +1,11 @@
-//I need to still have it say the correct date for onloaded photos and if the dates are the same not create another date div.
-
-//Load up pre-uploaded images on a page loadup.
+//DECIDE HOW I WANT TO DO DATES ON THE RIGHT SIDE OF THE SCREEN?? 
 const loadImages = () => {
   fetch("/firstload")
-    .then((response) => response.json())
+    .then((response) =>  response.json())
     .then((data) => {
+      console.log(typeof data)
       const photos = document.getElementById("photoContainer");
-
+      console.log("firstload data", data)
       data.forEach((image) => {
         const imgBox = document.createElement("div");
         imgBox.className = "newphoto";
@@ -67,12 +66,10 @@ form.onsubmit = async (event) => {
       return response.json();
     })
     .then((data) => {
-      console.log("data", data);
-
+      console.log("data", data)
       loadingIcon.style.display = "none";
 
 
-      //CHANGE THIS FUNCTION TO BE SIMILAR TO THE /firstload FUNCTION
 
       const photos = document.getElementById("photoContainer");
 
@@ -83,24 +80,35 @@ form.onsubmit = async (event) => {
       const d = document.createElement("div");
 
       d.innerHTML = month + "/" + day + "/" + year;
-      document.body.appendChild(d);
-      data.id.forEach((linky) => {
-        console.log(linky);
-        const photo = document.createElement("img");
-        photo.id = "newphoto";
-        photo.src = "https://drive.google.com/uc?export=view&id=" + linky;
-        photos.appendChild(photo);
+
+      data.forEach((image) => {
+        console.log(image)
+        
+        const imgBox = document.createElement("div");
+        imgBox.className = "newphoto";
+        photos.appendChild(imgBox);
+        const img = document.createElement("img");
+        img.src = "https://drive.google.com/uc?export=view&id=" + image.link;
+        imgBox.appendChild(img);
+        if(image.link == data[0].link){
+          imgBox.appendChild(d);
+        };
+        if (image.imageMediaMetadata.time) {
+          const popupid = document.createElement("div");
+          popupid.className = "photo-overlay";
+          popupid.setAttribute(
+            "data-id",
+            "This was taken on " + image.imageMediaMetadata.time
+          );
+          imgBox.appendChild(popupid);
+        }
       });
-      /*for(var i = 0; i< data.link.length; i++){
-            let photo = document.createElement("img")
-            photo.id = "newphoto"
-            photo.src = "https://drive.google.com/uc?export=view&id=" + data.link[i]
-            photos.appendChild(photo)
-          }
-          */
+
     })
     .catch((error) => {
       console.log(error);
     });
+
+  form.reset();
 };
 window.addEventListener("load", loadImages);

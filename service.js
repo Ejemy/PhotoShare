@@ -29,6 +29,8 @@ const getDriveService = async () => {
     scopes: SCOPES,
   });
   const driveService = google.drive({ version: 'v3', auth });
+  const res = await driveService.files.list();
+  //console.log("debug", res)
   return driveService;
 };
 
