@@ -10,7 +10,7 @@ const upload = multer();
 const getDriveService = require("./service.js");
 require("dotenv").config();
 
-var id = [];
+var imageList = [];
 const uploadFile = async (fileObject) => {
   const driveService = await getDriveService();
   const bufferStream = new stream.PassThrough();
@@ -26,7 +26,11 @@ const uploadFile = async (fileObject) => {
     },
     fields: "id,name, createdTime, imageMediaMetadata",
   });
-  id.push(data.id); //to get the file location URL IMPORTANT
+  var images = {};
+  images.link = data.id;
+  images.createdTime = data.createdTime;
+  images.imageMediaMetadata = data.imageMediaMetadata;
+  imageList.push(images);
   console.log("Grabbing from Google Drive...");
   console.log(
     `Uploaded file ${data.name} ${data.id} ${data.imageMediaMetadata}`
@@ -40,11 +44,11 @@ uploadRouter.post("/upload", upload.any(), async (req, res) => {
     //for uploading multiple files
     for (let f = 0; f < files.length; f += 1) {
       await uploadFile(files[f]);
-      
     }
-    res.status(200).send({"status": "success"});
+    return res.status(200).send(imageList);
+
   } catch (f) {
-    res.send(f.message);
+    return res.send(f.message);
   }
 });
 
@@ -68,9 +72,9 @@ uploadRouter.get("/firstload", async (req, res) => {
     const sortedPhotos = sendPhotos.sort(function (a, b) {
       return a.createdTime - b.createdTime;
     });
-    console.log(sortedPhotos);
+    //console.log(sortedPhotos);
 
-    res.status(200).json(sendPhotos);
+    res.status(200).json(sortedPhotos);
   } catch (errors) {
     console.log(errors);
     res.status(500).send("Error retrieving photos from Google Drive.");
