@@ -1,5 +1,6 @@
 //DECIDE HOW I WANT TO DO DATES ON THE RIGHT SIDE OF THE SCREEN?? 
 const loadImages = () => {
+  
   fetch("/firstload")
     .then((response) =>  response.json())
     .then((data) => {
@@ -48,11 +49,14 @@ const loadingIcon = document.getElementById("loading");
 //On uploading a new photo
 form.onsubmit = async (event) => {
   event.preventDefault();
+  let unique = Date.now();
+
   const formData = new FormData(form);
   loadingIcon.style.display = "block";
-  fetch("/upload", {
+
+  fetch(`/upload?unique=${unique}`, {
     method: "POST",
-    body: formData,
+    body: formData
   })
     .then((response) => {
       if (!response.ok) {
@@ -63,6 +67,7 @@ form.onsubmit = async (event) => {
         throw new Error("Bad network connection (onsubmit)");
       }
       console.log("Response OK");
+
       return response.json();
     })
     .then((data) => {
@@ -70,6 +75,8 @@ form.onsubmit = async (event) => {
       loadingIcon.style.display = "none";
 
       const photos = document.getElementById("photoContainer");
+
+      
 
       const today = new Date();
       const month = today.getUTCMonth() + 1;
@@ -98,12 +105,11 @@ form.onsubmit = async (event) => {
           imgBox.appendChild(popupid);
         }
       });
-
     })
     .catch((error) => {
       console.log(error);
     });
-
   form.reset();
+  
 };
 window.addEventListener("load", loadImages);
