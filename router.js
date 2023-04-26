@@ -42,12 +42,11 @@ uploadRouter.post("/upload", upload.any(), async (req, res) => {
   try {
     const files = req.files;
     const unique = req.query.unique
-    console.log(unique)
     //for uploading multiple files
     for (let f = 0; f < files.length; f += 1) {
       await uploadFile(files[f], unique);
     }
-    res.set('Cache-Control', 'no-cache');
+    res.set('Cache-Control', 'no-store');
     return res.status(200).send(imageList);
 
   } catch (f) {
