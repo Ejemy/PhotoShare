@@ -19,4 +19,4 @@ A website for uploading and previewing photos.
 *passcode is 1122345*
 
 ### これはReplit.comで展開されています：https://photoshare.ejemy1.repl.co/
-＊パスコードは1122345です＊
+*パスコードは1122345です*
