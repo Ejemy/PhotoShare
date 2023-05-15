@@ -1,8 +1,7 @@
 # Photo Share
 A website for uploading and previewing photos.
-*Under construction!*
 写真のアップロードとプレビューのためのウェブサイトです。
-＊現在工事中！＊
+
 
 ## Features
 - Upload, delete, and preview photos from any computer.
