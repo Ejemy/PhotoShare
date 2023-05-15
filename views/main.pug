@@ -13,19 +13,29 @@ html(lang="en")
     script(src="https://kit.fontawesome.com/6e13d63b5c.js", crossorigin="anonymous")
 
   body
-    h1 This is the main page.
+    h1.title Photo Share
+      h3.title To begin, upload some photos!
     #nav-bar 
       nav
         ul
           li
             h3#top Top 
-    #main-feed
+          li
+            h3#delete Delete
+            ul
+              li
+                a#yes.yesnoNav(style="display: none") YES
+              li
+                a#no.yesnoNav(style="display: none") CANCEL
+          li
+            
+    #main-feed.main
       form#form(type="submit", enctype="multipart/form-data")
         input(id= "input", type='file', name='photo', accept="image/jpeg, image/png, image/gif", multiple="multiple")
         button.btn.btn-primary(type='submit') Upload
       i.fa.fas.fa-circle-notch.fa-spin(style="display: none", id="loading")
       #error(style="display: none")
-      #photoContainer 
+      
         
   script(src="/js/index.js") 
   
