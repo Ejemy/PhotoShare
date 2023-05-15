@@ -8,7 +8,10 @@ const { google } = require("googleapis");
 const uploadRouter = express.Router();
 const upload = multer();
 const getDriveService = require("./service.js");
+
+const bodyParser = require("body-parser"); 
 require("dotenv").config();
+uploadRouter.use(bodyParser.json());
 
 var imageList = [];
 const uploadFile = async (fileObject, unique) => {
@@ -27,7 +30,7 @@ const uploadFile = async (fileObject, unique) => {
     fields: "id,name, createdTime, imageMediaMetadata",
   });
   var images = {};
-  images.link = data.id;
+  images.id = data.id;
   images.createdTime = data.createdTime;
   images.imageMediaMetadata = data.imageMediaMetadata;
   imageList.push(images);
@@ -42,7 +45,9 @@ uploadRouter.post("/upload", upload.any(), async (req, res) => {
   try {
     const files = req.files;
     const unique = req.query.unique
+    
     //for uploading multiple files
+    imageList = [];
     for (let f = 0; f < files.length; f += 1) {
       await uploadFile(files[f], unique);
     }
@@ -53,6 +58,7 @@ uploadRouter.post("/upload", upload.any(), async (req, res) => {
     return res.send(f.message);
   }
 });
+
 
 uploadRouter.get("/firstload", async (req, res) => {
   try {
@@ -70,11 +76,9 @@ uploadRouter.get("/firstload", async (req, res) => {
       createdTime: file.createdTime,
       takenTime: file.imageMediaMetadata?.time,
     }));
-
     const sortedPhotos = sendPhotos.sort(function (a, b) {
-      return b.createdTime - a.createdTime;
+      return new Date(a.createdTime) - new Date(b.createdTime);
     });
-    //console.log(sortedPhotos);
 
     res.status(200).json(sortedPhotos);
   } catch (errors) {
@@ -82,5 +86,33 @@ uploadRouter.get("/firstload", async (req, res) => {
     res.status(500).send("Error retrieving photos from Google Drive.");
   }
 });
+
+  uploadRouter.post("/delete", async (req,res) =>{
+    try{
+      const driveurl = req.body.ids;
+      console.log(driveurl)
+      for(var i = 0; i < driveurl.length; i++){
+        const id = driveurl[i].substr(43);
+        console.log(id)
+        deleteFile(id)
+      }
+      
+      return res.status(200).send({"status":"Success"});
+    } catch(error){
+      console.log(error);
+      return res.status(404).send({"status":"Failure"})
+    }
+  })
+
+
+const deleteFile = async (fileId) => {
+  try{
+    const driveService = await getDriveService();
+    console.log("Daweeted..")
+    await driveService.files.delete({ fileId });
+  } catch (error){
+    throw error;
+  }
+}
 
 module.exports = uploadRouter;

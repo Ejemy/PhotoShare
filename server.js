@@ -15,21 +15,20 @@ app.use(uploadRouter);
 require('dotenv').config();
 
 
-
 app.get('/', (req, res) => { 
-  res.render("login", {title: "This is a title"});
+  res.render("login", {title: "Passcode, please."});
 });
 
 
 
 app.post("/login", (req,res) => {
-  if(req.body.id == "12345"){
+  if(req.body.id == "1122345"){
     return res.send({valid: true, id: req.body.id})
   }
   return res.send({error: "Incorrect login information haha"})
 })
 
-app.get("/12345/main", (req,res)=>{
+app.get("/" + process.env.PASSCODE + "/main", (req,res)=>{
   
   res.render("main")
 })
@@ -41,6 +40,3 @@ app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-
-
-//figure out how to not need a file key for service.js
