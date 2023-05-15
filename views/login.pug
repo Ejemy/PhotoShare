@@ -8,13 +8,13 @@ html(lang="en")
     meta(name="description", content="A photosharing web application for my family.")
     meta(name="keywords", content="photo, sharing, family, sns")
     meta(name="author", content="Eric Iwan")
-    link(rel="stylesheet", href="login.css", type="text/css")
+    link(rel="stylesheet", href="/css/login.css", type="text/css")
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
     script(src="https://kit.fontawesome.com/6e13d63b5c.js", crossorigin="anonymous")
 
   body
-    h1=title 
-    #login-form
+    h1.content=title 
+    #login-form.content
       form(action="/login", method="post" id="form")
         label(for="id") ID:
         input(type="text", id="id", name="id", required)
