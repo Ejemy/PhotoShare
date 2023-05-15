@@ -3,7 +3,7 @@ const { google } = require('googleapis');
 require('dotenv').config();
 const axios = require('axios');
 
-const keyUrl = process.env.FILEKEY;
+const keyUrl = process.env.FILEKEY; 
 
 
 const getCredentials = async () => {
@@ -30,7 +30,6 @@ const getDriveService = async () => {
   });
   const driveService = google.drive({ version: 'v3', auth });
   const res = await driveService.files.list();
-  //console.log("debug", res)
   return driveService;
 };
 
