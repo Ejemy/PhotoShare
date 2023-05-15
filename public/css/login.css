@@ -1,8 +1,14 @@
 body {
     margin: auto;
+}
+h1{
     text-align: center;
+  margin: auto;
 }
 
+form {
+  text-align:center;
+}
 
 #error-message{
    margin: auto;
