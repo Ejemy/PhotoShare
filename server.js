@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 
 
 app.post("/login", (req,res) => {
-  if(req.body.id == "1122345"){
+  if(req.body.id == process.env.PASSCODE){
     return res.send({valid: true, id: req.body.id})
   }
   return res.send({error: "Incorrect login information haha"})
