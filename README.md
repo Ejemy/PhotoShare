@@ -15,5 +15,5 @@ A website for uploading and previewing photos.
 - nodejs
 
 ### This is deployed on Replit.com
-(View here!)[https://bcbbd90d-8dc6-43fa-bd82-9df3d5c66dad-00-z4peo0n7ucg9.pike.replit.dev/1122345/main]
+[View here!](https://bcbbd90d-8dc6-43fa-bd82-9df3d5c66dad-00-z4peo0n7ucg9.pike.replit.dev/1122345/main)
 
