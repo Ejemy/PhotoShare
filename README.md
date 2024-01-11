@@ -9,13 +9,11 @@ A website for uploading and previewing photos.
 ## 特徴
 -どのコンピュータからでも写真をアップロード、削除、およびプレビューできます。
 
-## Dependencies / 依存関係
+## Dependencies
 - googleapis
 - express
 - nodejs
 
-### This is deployed on Replit.com at https://photoshare.ejemy1.repl.co/
-*passcode is 1122345*
+### This is deployed on Replit.com
+(View here!)[https://bcbbd90d-8dc6-43fa-bd82-9df3d5c66dad-00-z4peo0n7ucg9.pike.replit.dev/1122345/main]
 
-### これはReplit.comで展開されています：https://photoshare.ejemy1.repl.co/
-*パスコードは1122345です*
